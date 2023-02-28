@@ -9,3 +9,188 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Users{
+  id_user String @id @default(uuid())
+  nome String
+  email String @unique
+  password String
+  admin Boolean
+  //Relations
+  post Posts[]
+  player Players[]
+  message Messages[]
+  @@map("users")
+}
+
+model Messages{
+  id_msg String @id @default(uuid())
+  conteudo String
+  //Relations
+  user_id String
+  post_id String
+  users Users @relation(fields: [user_id], references: [id_user])
+  post Posts @relation(fields: [post_id], references: [id_post])
+  @@map("messages")
+}
+
+model Posts{
+  id_post String @id @default(uuid())
+  nome String
+  conteudo String
+  sistema String
+  modalidade String
+  horario String
+  dia String
+  cidade String?
+  banner String
+  //Relations
+  messages Messages[]
+  player Players[]
+  mundi_info MundiInfo[]
+  master_id String
+
+  users Users @relation(fields: [master_id], references: [id_user])
+  @@map("posts")
+}
+
+model Players{
+  id_player String @id @default(uuid())
+  user_id String
+  post_id String
+  //Relations
+  users Users @relation(fields: [user_id], references: [id_user])
+  post Posts @relation(fields: [post_id], references: [id_post])
+  @@map("players")
+}
+
+model MundiInfo{
+  id_mundi String @id @default(uuid())
+  nome String
+  //Relations
+  submundi Submundis[]
+  continent ContinentInfo[]
+  post_id String
+  post Posts @relation(fields: [post_id], references: [id_post])
+  @@map("mundiinfo")
+}
+
+model Submundis{
+  id_submundi String @id @default(uuid())
+  nome String
+  conteudo String
+  foto String
+  //Relations
+  mundi_id String
+  mundi MundiInfo @relation(fields: [mundi_id], references: [id_mundi])
+  @@map("submundis")
+}
+
+model ContinentInfo{
+  id_continent String @id @default(uuid())
+  nome String
+  //Relations
+  subcontinent Subcontinents[]
+  realms RealmsInfo[]
+  mundi_id String
+  mundi MundiInfo @relation(fields: [mundi_id], references: [id_mundi])
+  @@map("continentinfo")
+}
+
+model Subcontinents{
+  id_subcontinent String @id @default(uuid())
+  nome String
+  conteudo String
+  foto String
+  //Relations
+  continent_id String
+  continent ContinentInfo @relation(fields: [continent_id], references: [id_continent])
+  @@map("subcontinents")
+}
+
+model RealmsInfo{
+  id_realms String @id @default(uuid())
+  nome String
+  //Relations
+  subrealms Subrealms[]
+  citys CitysInfo[]
+  continent_id String
+  continent ContinentInfo @relation(fields: [continent_id], references: [id_continent])
+  @@map("realmsinfo")
+}
+
+model Subrealms{
+  id_subrealms String @id @default(uuid())
+  nome String
+  conteudo String
+  foto String
+  //Relations
+  realms_id String
+  realms RealmsInfo @relation(fields: [realms_id], references: [id_realms])
+  @@map("subrealms")
+}
+
+model CitysInfo{
+  id_citys String @id @default(uuid())
+  nome String
+  //Relations
+  subcitys Subcitys[]
+  places PlacesInfo[]
+  realms_id String
+  realms RealmsInfo @relation(fields: [realms_id], references: [id_realms])
+  @@map("citysinfo")
+}
+
+model Subcitys{
+  id_subcitys String @id @default(uuid())
+  nome String
+  conteudo String
+  foto String
+  //Relations
+  city_id String
+  citys CitysInfo @relation(fields: [city_id], references: [id_citys])
+  @@map("subcitys")
+}
+
+model PlacesInfo{
+  id_places String @id @default(uuid())
+  nome String
+  //Relations
+  subplaces Subplaces[]
+  npcs NpcsInfo[]
+  citys_id String
+  citys CitysInfo @relation(fields: [citys_id], references: [id_citys])
+  @@map("placesinfo")
+}
+
+model Subplaces{
+  id_subplaces String @id @default(uuid())
+  nome String
+  conteudo String
+  foto String
+  //Relations
+  place_id String
+  places PlacesInfo @relation(fields: [place_id], references: [id_places])
+  @@map("subplaces")
+}
+
+model NpcsInfo{
+  id_npcs String @id @default(uuid())
+  nome String
+  //Relations
+  Subnpcs Subnpcs[]
+  place_id String
+  place PlacesInfo @relation(fields: [place_id], references: [id_places])
+  @@map("npcsinfo")
+}
+
+model Subnpcs{
+  id_subnpcs String @id @default(uuid())
+  nome String
+  conteudo String
+  foto String
+  //Relations
+  npcs_id String
+  npcs NpcsInfo @relation(fields: [npcs_id], references: [id_npcs])
+  @@map("subnpcs")
+}
