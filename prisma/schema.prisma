@@ -15,7 +15,7 @@ model Users{
   nome String
   email String @unique
   password String
-  admin Boolean
+  admin Boolean @default(false)
   //Relations
   post Posts[]
   player Players[]

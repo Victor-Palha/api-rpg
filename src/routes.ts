@@ -1,4 +1,5 @@
 import { Router, Request, Response } from "express";
+import { CreateUserController } from "./controllers/user/CreateUserController";
 
 //Start Router
 const router = Router()
@@ -9,7 +10,7 @@ const router = Router()
         return res.sendStatus(200)
     })
     //Users
-    
+    .post('/user/signup', new CreateUserController().handle)
 
     //Posts
 
