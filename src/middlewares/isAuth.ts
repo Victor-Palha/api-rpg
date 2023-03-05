@@ -18,6 +18,7 @@ export function isAuth(req:Request, res:Response, next:NextFunction){
     // Faz a validação do token com o segredo JWT
     try {
         const {sub} = verify(token, process.env.JWT) as Payload
+        req.user_id = sub
         return next()
     } catch (error) {
         return res.status(401).end()
