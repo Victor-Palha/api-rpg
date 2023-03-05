@@ -1,4 +1,5 @@
 import { Router, Request, Response } from "express";
+import { CreatePostController } from "./controllers/posts/CreatePostController";
 import { AuthUserController } from "./controllers/user/AuthUserController";
 import { CreateUserController } from "./controllers/user/CreateUserController";
 import { DetailUserController } from "./controllers/user/DetailsUserController";
@@ -17,7 +18,7 @@ const router = Router()
     .post('/user/signin', new AuthUserController().handle)
     .get('/user/me', isAuth, new DetailUserController().handle)
     //Posts
-
+    .post('/post/create', isAuth, new CreatePostController().handle)
 
     //Post Messages
 

@@ -39,16 +39,18 @@ model Posts{
   nome String
   conteudo String
   sistema String
+  pago Boolean
   modalidade String
   horario String
   dia String
   cidade String?
-  banner String
+  banner String?
   //Relations
   messages Messages[]
   player Players[]
   mundi_info MundiInfo[]
   master_id String
+  created_at DateTime? @default(now())
 
   users Users @relation(fields: [master_id], references: [id_user])
   @@map("posts")
