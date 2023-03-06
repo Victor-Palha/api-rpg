@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { CreatePostController } from "./controllers/posts/CreatePostController";
+import { GetAllPostsController } from "./controllers/posts/GetAllPostsController";
 import { AuthUserController } from "./controllers/user/AuthUserController";
 import { CreateUserController } from "./controllers/user/CreateUserController";
 import { DetailUserController } from "./controllers/user/DetailsUserController";
@@ -19,7 +20,7 @@ const router = Router()
     .get('/user/me', isAuth, new DetailUserController().handle)
     //Posts
     .post('/post/create', isAuth, new CreatePostController().handle)
-
+    .get('/post/all', new GetAllPostsController().handle)
     //Post Messages
 
 
